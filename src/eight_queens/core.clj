@@ -31,9 +31,21 @@
 				(reverse (zipmap x (range 8))))
 				perms)))
 
+(defn solve [boards]
+	(remove #'board-fails-p boards))
+
+(defn print-board [board]
+	(dotimes [row 8]
+		(println
+			(clojure.string/join
+				"|"
+				(map (fn [x] (if (= (first x) row) "X" "_")) board))))
+
+	(print "\n\n\n"))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "8 queens problem"
   [& args]
-  
-	(reachable-p '(1 1) '(5 2)))	
+
+	(let [solutions (solve (generate-boards))]
+		(print-board (first solutions))))
