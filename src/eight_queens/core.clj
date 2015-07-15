@@ -1,4 +1,5 @@
 (ns eight-queens.core
+	(require [clojure.math.combinatorics :as combo])
   (:gen-class))
 
 (defn reachable-p [q1 q2]
@@ -23,6 +24,12 @@
 						false
 						others)
 				(board-fails-p others)))))
+
+(defn generate-boards []
+	(let [perms (combo/permutations (range 8))]
+		(map (fn [x]
+				(reverse (zipmap x (range 8))))
+				perms)))
 
 
 (defn -main
