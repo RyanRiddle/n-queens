@@ -26,9 +26,10 @@
 				(board-fails-p others)))))
 
 (defn generate-boards []
-	(let [perms (combo/permutations (range 8))]
-		(map (fn [x]
-				(reverse (zipmap x (range 8))))
+	(let [xs (range 8)
+		  perms (combo/permutations xs)]
+		(map (fn [ys]
+				(->> ys (zipmap xs) reverse))
 				perms)))
 
 (defn solve [boards]
@@ -39,7 +40,7 @@
 		(println
 			(clojure.string/join
 				"|"
-				(map (fn [x] (if (= (first x) row) "X" "_")) board))))
+				(map (fn [q] (if (= (last q) row) "X" "_")) board))))
 
 	(print "\n\n\n"))
 
