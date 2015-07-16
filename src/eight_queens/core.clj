@@ -25,18 +25,18 @@
 						others)
 				(board-fails-p others)))))
 
-(defn generate-boards []
-	(let [xs (range 8)
+(defn generate-boards [size]
+	(let [xs (range size)
 		  perms (combo/permutations xs)]
-		(map (fn [ys]
-				(->> ys (zipmap xs) reverse))
-				perms)))
+		(map 
+			(fn [ys] (map vector xs ys))
+			perms)))
 
 (defn solve [boards]
 	(remove #'board-fails-p boards))
 
 (defn print-board [board]
-	(dotimes [row 8]
+	(dotimes [row (count board)]
 		(println
 			(clojure.string/join
 				"|"
@@ -48,5 +48,6 @@
   "8 queens problem"
   [& args]
 
-	(let [solutions (solve (generate-boards))]
+	(let [size (read-string (first args))
+		  solutions (solve (generate-boards size))]
 		(print-board (first solutions))))
